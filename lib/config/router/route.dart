@@ -12,13 +12,18 @@ class AppRoute {
         path: '/home',
         name: AppPage.home,
         pageBuilder: (context, state) => CupertinoPage(child: HomeScreen()),
-        routes: [
-          GoRoute(
-            path: 'alarm',
-            name: AppPage.alarm,
-            pageBuilder: (context, state) => CupertinoPage(child: AlarmScreen())
-          )
-        ]
+        // routes: [
+        //   GoRoute(
+        //     path: 'alarm',
+        //     name: AppPage.alarm,
+        //     pageBuilder: (context, state) => CupertinoPage(child: AlarmScreen())
+        //   )
+        // ]
+      ),
+      GoRoute(
+        path: '/alarm',
+        name: AppPage.alarm,
+          pageBuilder: (context, state) => CupertinoPage(child: AlarmScreen())
       )
     ]
   );

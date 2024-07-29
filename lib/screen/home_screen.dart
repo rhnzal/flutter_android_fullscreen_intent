@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:alarm_app/app.dart';
+import 'package:alarm_app/config/local_notification/android_channel_notification.dart';
 import 'package:alarm_app/config/router/route.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,6 +23,14 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Halo'),
+            ElevatedButton(
+              onPressed: () async {
+                if (Platform.isAndroid) {
+                  showBasicNotification();
+                }
+              }, 
+              child: Text('Show Basic Notification')
+            ),
             ElevatedButton(
               onPressed: () async {
                 if (Platform.isAndroid) {
@@ -41,6 +52,30 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> showBasicNotification() async {
+  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
+
+  AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+    basicChannelId, 
+    basicChannelName,
+    channelDescription: basicChannelDescription,
+    importance: Importance.defaultImportance,
+    priority: Priority.defaultPriority,
+    ticker: 'ticker'
+  );
+
+  NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+  await flutterLocalNotificationsPlugin.show(
+    notificationId, 
+    'Basic Notification', 
+    'Showing Basic Notification', 
+    notificationDetails,
+    payload: 'ANDROID'
+  );
+
+  notificationId++ ;
 }
 
 Future<void> scheduleAlarm() async {
