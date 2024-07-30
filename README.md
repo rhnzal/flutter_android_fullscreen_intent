@@ -1,1 +1,1 @@
-alarm/phone call like functionality. flutter call another android activity.
+alarm/phone call like functionality.
